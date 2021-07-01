@@ -20,24 +20,3 @@ RUN envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/defau
 ENV PORT 80
 EXPOSE 80
 CMD ["sh", "-c", "envsubst '$$REACT_APP_PORT $$PORT' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
-
-
-
-
-
-
-
-
-# FROM node:14.15.4-alpine
-
-# WORKDIR /app
-
-# COPY package*.json ./
-
-# RUN npm ci
-
-# COPY . .
-
-# EXPOSE 3000
-
-# CMD ["npm", "run", "start"]
