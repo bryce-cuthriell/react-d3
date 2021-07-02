@@ -14,7 +14,7 @@ const Network = () => {
   });
 
   const [width, setWidth] = useState(window.innerWidth * 0.7);
-  const height = 800;
+  const [height, setHeight] = useState(window.innerHeight * 0.8);
 
   useEffect(() => {
     if (graphData) {
@@ -26,13 +26,14 @@ const Network = () => {
     if (width && height && graphData) {
       createUpdateSimulation(graphData.nodes, graphData.links, width, height);
     }
-  }, [width]);
+  }, [width, height]);
 
   let resizedFn;
   window.addEventListener("resize", () => {
     clearTimeout(resizedFn);
     resizedFn = setTimeout(() => {
       setWidth(window.innerWidth * 0.7);
+      setHeight(window.innerHeight * 0.8);
     }, 200);
   });
 
@@ -104,7 +105,7 @@ const Network = () => {
     node
       .append("circle")
       .attr("r", r)
-      .attr("fill", "blue")
+      .attr("fill", "#8e9384")
       .attr("stroke", "FFFF00")
       .attr("stroke-width", 3)
       .style("cursor", "pointer");
@@ -136,8 +137,8 @@ const Network = () => {
 
     function dragended(event) {
       if (!event.active) simulation.alphaTarget(0);
-      // event.subject.fx = null;
-      // event.subject.fy = null;
+      event.subject.fx = null;
+      event.subject.fy = null;
     }
 
     return d3
@@ -148,29 +149,17 @@ const Network = () => {
   }
 
   return (
-    <div>
-      <button
-        onClick={() => {
-          setGraphData({
-            nodes: [{ id: 1 }, { id: 2 }, { id: 3 }, {id: 4}],
-            links: [
-              { source: 1, target: 2 },
-              { source: 2, target: 3 },
-              { source: 3, target: 1 },
-            ],
-          });
-        }}
-      >
-        click me
-      </button>
-      <svg
-        ref={simulationContainer}
-        id="force-simulation"
-        width={width}
-        height={height}
-        style={{ boxShadow: "10px 9px 21px #2e385333" }}
-      />
-    </div>
+    <svg
+      ref={simulationContainer}
+      id="force-simulation"
+      width={width}
+      height={height}
+      style={{
+        boxShadow: "10px 9px 21px #2e385333",
+        backgroundColor: "white",
+        marginTop: "40px",
+      }}
+    />
   );
 };
 
