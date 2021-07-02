@@ -14,7 +14,7 @@ const Network = () => {
   });
 
   const [width, setWidth] = useState(window.innerWidth * 0.7);
-  const [height, setHeight] = useState(window.innerHeight * 0.8);
+  const height = window.innerHeight * 0.8;
 
   useEffect(() => {
     if (graphData) {
@@ -26,14 +26,13 @@ const Network = () => {
     if (width && height && graphData) {
       createUpdateSimulation(graphData.nodes, graphData.links, width, height);
     }
-  }, [width, height]);
+  }, [width]);
 
   let resizedFn;
   window.addEventListener("resize", () => {
     clearTimeout(resizedFn);
     resizedFn = setTimeout(() => {
       setWidth(window.innerWidth * 0.7);
-      setHeight(window.innerHeight * 0.8);
     }, 200);
   });
 
