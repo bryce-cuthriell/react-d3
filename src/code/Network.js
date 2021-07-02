@@ -5,7 +5,11 @@ const Network = () => {
   const simulationContainer = useRef(null);
 
   const [graphData, setGraphData] = useState({
-    nodes: [{ id: 1 }, { id: 2 }, { id: 3 }],
+    nodes: [
+      { id: 1, size: Math.floor(Math.random() * 1000000) },
+      { id: 2, size: Math.floor(Math.random() * 1000000) },
+      { id: 3, size: Math.floor(Math.random() * 1000000) },
+    ],
     links: [
       { source: 1, target: 2 },
       { source: 2, target: 3 },
@@ -104,7 +108,9 @@ const Network = () => {
     node
       .append("circle")
       .attr("r", r)
-      .attr("fill", "#8e9384")
+      .attr("fill", (d) => {
+        return d3.interpolateBlues(d.size / d3.max(dataNodes, (d) => d.size));
+      })
       .attr("stroke", "FFFF00")
       .attr("stroke-width", 3)
       .style("cursor", "pointer");
