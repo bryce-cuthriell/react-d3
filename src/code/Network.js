@@ -1,21 +1,42 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as d3 from "d3";
 
+const odysseyData = {
+  nodes: [
+    {id: "Odysseus", size: Math.floor(Math.random() * 1000000)},
+    {id: "Penelope", size: Math.floor(Math.random() * 1000000)},
+    {id: "Telemachus", size: Math.floor(Math.random() * 1000000)},
+    {id: "Laertes", size: Math.floor(Math.random() * 1000000)},
+    {id: "Nestor", size: Math.floor(Math.random() * 1000000)},
+    {id: "Menelaos", size: Math.floor(Math.random() * 1000000)},
+    {id: "Helen", size: Math.floor(Math.random() * 1000000)},
+    {id: "Agamemnon", size: Math.floor(Math.random() * 1000000)},
+    {id: "Zeus", size: Math.floor(Math.random() * 1000000)},
+    {id: "Athena", size: Math.floor(Math.random() * 1000000)},
+    {id: "Poseidon", size: Math.floor(Math.random() * 1000000)},
+    {id: "Calypso", size: Math.floor(Math.random() * 1000000)},
+    {id: "Circe", size: Math.floor(Math.random() * 1000000)},
+    {id: "Tiresias", size: Math.floor(Math.random() * 1000000)},
+    {id: "Polyphemus", size: Math.floor(Math.random() * 1000000)},
+    {id: "Alcinous", size: Math.floor(Math.random() * 1000000)},
+    {id: "Arete", size: Math.floor(Math.random() * 1000000)},
+    {id: "Nausicaa", size: Math.floor(Math.random() * 1000000)},
+  ],
+  links: [
+    {source: "Odysseus", target: "Penelope"},
+    {source: "Odysseus", target: "Telemachus"},
+    {source: "Penelope", target: "Telemachus"},
+    {source: "Alcinous", target: "Odysseus"},
+    {source: "Alcinous", target: "Arete"},
+    {source: "Alcinous", target: "Nausicaa"},
+    {source: "Arete", target: "Nausicaa"},
+  ],
+}
+
 const Network = () => {
   const simulationContainer = useRef(null);
 
-  const [graphData, setGraphData] = useState({
-    nodes: [
-      { id: 1, size: Math.floor(Math.random() * 1000000) },
-      { id: 2, size: Math.floor(Math.random() * 1000000) },
-      { id: 3, size: Math.floor(Math.random() * 1000000) },
-    ],
-    links: [
-      { source: 1, target: 2 },
-      { source: 2, target: 3 },
-      { source: 3, target: 1 },
-    ],
-  });
+  const [graphData, setGraphData] = useState(odysseyData);
 
   const [width, setWidth] = useState(window.innerWidth * 0.7);
   const height = window.innerHeight * 0.8;
@@ -40,7 +61,7 @@ const Network = () => {
     }, 200);
   });
 
-  const r = 15;
+  const r = 20;
 
   /**
    *
@@ -161,7 +182,7 @@ const Network = () => {
       height={height}
       style={{
         boxShadow: "10px 9px 21px #2e385333",
-        backgroundColor: "white",
+        backgroundColor: "#f7fcff",
         marginTop: "40px",
       }}
     />
