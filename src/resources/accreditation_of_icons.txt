@@ -1,0 +1,4 @@
+Icons found in this directory and cited in the following list are courtesy of freeicons.io:
+
+1. bar_graph.svg
+2. network_graph.svg

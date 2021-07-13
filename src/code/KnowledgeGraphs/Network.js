@@ -5,7 +5,6 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
 
 import { odysseyCharacters } from "./data/odysseyCharacters";
 import { physicalInteractionRelationships } from "./data/physicalInteractionRelationships";
@@ -150,8 +149,6 @@ const Network = () => {
         d3.select(this).transition().duration(500).attr("r", r);
         currClickedNode = null;
       }
-
-      var connectedEdges = getConnectedNodes(d.id, dataLinks);
     }
 
     function getConnectedNodes(nodeId, edgeList) {
@@ -161,8 +158,6 @@ const Network = () => {
           connectedEdges.push(element);
         }
       });
-      console.log("list: ", connectedEdges);
-
       return connectedEdges;
     }
 
