@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Header from "./Header";
 import Dashboard from "./Dashboard";
-import Network from "./Network";
+import Network from "./KnowledgeGraphs/Network";
 import DataSources from "./DataSources";
 import About from "./About";
 

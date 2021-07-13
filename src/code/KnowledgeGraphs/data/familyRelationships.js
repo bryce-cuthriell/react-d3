@@ -1,0 +1,15 @@
+export const familyRelationships = [
+    { source: "Odysseus", target: "Penélopê" },
+    { source: "Odysseus", target: "Telémakhos" },
+    { source: "Penélopê", target: "Telémakhos" },
+    { source: "Laërtês", target: "Odysseus" },
+    { source: "Alkínoös", target: "Arêtê" },
+    { source: "Nausikaa", target: "Arêtê" },
+    { source: "Nausikaa", target: "Alkínoös" },
+    { source: "Zeus", target: "Athena" },
+    { source: "Zeus", target: "Poseidon" },
+    { source: "Hermês", target: "Zeus" },
+    { source: "Poseidon", target: "Polyphemus" },
+    { source: "Agamémnon", target: "Meneláos" },
+    { source: "Meneláos", target: "Helen" },
+  ];
