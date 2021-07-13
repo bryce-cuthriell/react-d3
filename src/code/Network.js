@@ -1,42 +1,64 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-const odysseyData = {
+const odysseyPhysicalInteractionData = {
   nodes: [
-    {id: "Odysseus", size: Math.floor(Math.random() * 1000000)},
-    {id: "Penelope", size: Math.floor(Math.random() * 1000000)},
-    {id: "Telemachus", size: Math.floor(Math.random() * 1000000)},
-    {id: "Laertes", size: Math.floor(Math.random() * 1000000)},
-    {id: "Nestor", size: Math.floor(Math.random() * 1000000)},
-    {id: "Menelaos", size: Math.floor(Math.random() * 1000000)},
-    {id: "Helen", size: Math.floor(Math.random() * 1000000)},
-    {id: "Agamemnon", size: Math.floor(Math.random() * 1000000)},
-    {id: "Zeus", size: Math.floor(Math.random() * 1000000)},
-    {id: "Athena", size: Math.floor(Math.random() * 1000000)},
-    {id: "Poseidon", size: Math.floor(Math.random() * 1000000)},
-    {id: "Calypso", size: Math.floor(Math.random() * 1000000)},
-    {id: "Circe", size: Math.floor(Math.random() * 1000000)},
-    {id: "Tiresias", size: Math.floor(Math.random() * 1000000)},
-    {id: "Polyphemus", size: Math.floor(Math.random() * 1000000)},
-    {id: "Alcinous", size: Math.floor(Math.random() * 1000000)},
-    {id: "Arete", size: Math.floor(Math.random() * 1000000)},
-    {id: "Nausicaa", size: Math.floor(Math.random() * 1000000)},
+    { id: "Odysseus", size: Math.floor(Math.random() * 1000000) },
+    { id: "Penelope", size: Math.floor(Math.random() * 1000000) },
+    { id: "Telemachus", size: Math.floor(Math.random() * 1000000) },
+    { id: "Laertes", size: Math.floor(Math.random() * 1000000) },
+    { id: "Nestor", size: Math.floor(Math.random() * 1000000) },
+    { id: "Menelaos", size: Math.floor(Math.random() * 1000000) },
+    { id: "Helen", size: Math.floor(Math.random() * 1000000) },
+    { id: "Achilleus", size: Math.floor(Math.random() * 1000000) },
+    { id: "Agamemnon", size: Math.floor(Math.random() * 1000000) },
+    { id: "Zeus", size: Math.floor(Math.random() * 1000000) },
+    { id: "Athena", size: Math.floor(Math.random() * 1000000) },
+    { id: "Poseidon", size: Math.floor(Math.random() * 1000000) },
+    { id: "Hermes", size: Math.floor(Math.random() * 1000000) },
+    { id: "Calypso", size: Math.floor(Math.random() * 1000000) },
+    { id: "Circe", size: Math.floor(Math.random() * 1000000) },
+    { id: "Tiresias", size: Math.floor(Math.random() * 1000000) },
+    { id: "Polyphemus", size: Math.floor(Math.random() * 1000000) },
+    { id: "Alcinous", size: Math.floor(Math.random() * 1000000) },
+    { id: "Arete", size: Math.floor(Math.random() * 1000000) },
+    { id: "Nausicaa", size: Math.floor(Math.random() * 1000000) },
   ],
   links: [
-    {source: "Odysseus", target: "Penelope"},
-    {source: "Odysseus", target: "Telemachus"},
-    {source: "Penelope", target: "Telemachus"},
-    {source: "Alcinous", target: "Odysseus"},
-    {source: "Alcinous", target: "Arete"},
-    {source: "Alcinous", target: "Nausicaa"},
-    {source: "Arete", target: "Nausicaa"},
+    { source: "Odysseus", target: "Penelope" },
+    { source: "Odysseus", target: "Telemachus" },
+    { source: "Penelope", target: "Telemachus" },
+    { source: "Odysseus", target: "Laertes" },
+    { source: "Telemachus", target: "Laertes" },
+    { source: "Telemachus", target: "Nestor" },
+    { source: "Telemachus", target: "Menelaos" },
+    { source: "Telemachus", target: "Helen" },
+    { source: "Menelaos", target: "Helen" },
+    { source: "Athena", target: "Odysseus" },
+    { source: "Athena", target: "Telemachus" },
+    { source: "Athena", target: "Zeus" },
+    { source: "Zeus", target: "Poseidon" },
+    { source: "Zeus", target: "Hermes" },
+    { source: "Calypso", target: "Hermes" },
+    { source: "Odysseus", target: "Polyphemus" },
+    { source: "Odysseus", target: "Calypso" },
+    { source: "Odysseus", target: "Circe" },
+    { source: "Odysseus", target: "Tiresias" },
+    { source: "Odysseus", target: "Agamemnon" },
+    { source: "Odysseus", target: "Achilleus" },
+    { source: "Odysseus", target: "Alcinous" },
+    { source: "Odysseus", target: "Arete" },
+    { source: "Odysseus", target: "Nausicaa" },
+    { source: "Alcinous", target: "Arete" },
+    { source: "Alcinous", target: "Nausicaa" },
+    { source: "Arete", target: "Nausicaa" },
   ],
-}
+};
 
 const Network = () => {
   const simulationContainer = useRef(null);
 
-  const [graphData, setGraphData] = useState(odysseyData);
+  const [graphData, setGraphData] = useState(odysseyPhysicalInteractionData);
 
   const [width, setWidth] = useState(window.innerWidth * 0.7);
   const height = window.innerHeight * 0.8;
@@ -62,6 +84,7 @@ const Network = () => {
   });
 
   const r = 20;
+  var currClickedNode = null;
 
   /**
    *
@@ -73,6 +96,10 @@ const Network = () => {
   const createUpdateSimulation = (dataNodes, dataLinks, width, height) => {
     var svg = d3.select(simulationContainer.current);
     var g = svg.append("g");
+
+    svg.selectAll("circle").remove();
+    svg.selectAll("line").remove();
+    svg.selectAll("text").remove();
 
     function zoomActions(event) {
       g.attr("transform", event.transform);
@@ -86,10 +113,6 @@ const Network = () => {
     svgInstance.setAttribute("height", height);
 
     svg.attr("viewBox", [-width / 2, -height / 2, width, height]);
-
-    // I know this isn't proper D3, but it works
-    svg.selectAll("circle").remove();
-    svg.selectAll("line").remove();
 
     const simulation = d3
       .forceSimulation()
@@ -132,9 +155,35 @@ const Network = () => {
       .attr("fill", (d) => {
         return d3.interpolateBlues(d.size / d3.max(dataNodes, (d) => d.size));
       })
-      .attr("stroke", "FFFF00")
+      .attr("stroke", "#b3b9c4")
       .attr("stroke-width", 3)
-      .style("cursor", "pointer");
+      .style("cursor", "pointer")
+      .on("click", clicked);
+
+    function clicked(event, d) {
+      if (event.defaultPrevented) return;
+
+      if (currClickedNode !== d.id) {
+        d3.selectAll("circle").transition().duration(500).attr("r", r);
+
+        d3.select(this)
+          .transition()
+          .duration(500)
+          .attr("r", r * 1.4);
+
+        currClickedNode = d.id;
+      }
+      if (event?.path[0]?.r?.animVal?.value === r * 1.4) {
+        d3.select(this).transition().duration(500).attr("r", r);
+        currClickedNode = null;
+      }
+    }
+
+    node
+      .append("text")
+      .attr("x", 30)
+      .attr("dy", ".3em")
+      .text((d) => d.id);
 
     function ticked() {
       link
@@ -145,8 +194,6 @@ const Network = () => {
 
       node.attr("transform", (d) => `translate(${d.x},${d.y})`);
     }
-
-    console.log("svg: ", svg);
   };
 
   function drag(simulation) {
