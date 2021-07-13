@@ -1,65 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-const odysseyPhysicalInteractionData = {
-  nodes: [
-    { id: "Odysseus", size: Math.floor(Math.random() * 1000000) },
-    { id: "Penelope", size: Math.floor(Math.random() * 1000000) },
-    { id: "Telemachus", size: Math.floor(Math.random() * 1000000) },
-    { id: "Laertes", size: Math.floor(Math.random() * 1000000) },
-    { id: "Nestor", size: Math.floor(Math.random() * 1000000) },
-    { id: "Menelaos", size: Math.floor(Math.random() * 1000000) },
-    { id: "Helen", size: Math.floor(Math.random() * 1000000) },
-    { id: "Achilleus", size: Math.floor(Math.random() * 1000000) },
-    { id: "Agamemnon", size: Math.floor(Math.random() * 1000000) },
-    { id: "Zeus", size: Math.floor(Math.random() * 1000000) },
-    { id: "Athena", size: Math.floor(Math.random() * 1000000) },
-    { id: "Poseidon", size: Math.floor(Math.random() * 1000000) },
-    { id: "Hermes", size: Math.floor(Math.random() * 1000000) },
-    { id: "Calypso", size: Math.floor(Math.random() * 1000000) },
-    { id: "Circe", size: Math.floor(Math.random() * 1000000) },
-    { id: "Tiresias", size: Math.floor(Math.random() * 1000000) },
-    { id: "Polyphemus", size: Math.floor(Math.random() * 1000000) },
-    { id: "Alcinous", size: Math.floor(Math.random() * 1000000) },
-    { id: "Arete", size: Math.floor(Math.random() * 1000000) },
-    { id: "Nausicaa", size: Math.floor(Math.random() * 1000000) },
-  ],
-  links: [
-    { source: "Odysseus", target: "Penelope" },
-    { source: "Odysseus", target: "Telemachus" },
-    { source: "Penelope", target: "Telemachus" },
-    { source: "Odysseus", target: "Laertes" },
-    { source: "Telemachus", target: "Laertes" },
-    { source: "Telemachus", target: "Nestor" },
-    { source: "Telemachus", target: "Menelaos" },
-    { source: "Telemachus", target: "Helen" },
-    { source: "Menelaos", target: "Helen" },
-    { source: "Athena", target: "Odysseus" },
-    { source: "Athena", target: "Telemachus" },
-    { source: "Athena", target: "Zeus" },
-    { source: "Zeus", target: "Poseidon" },
-    { source: "Zeus", target: "Hermes" },
-    { source: "Calypso", target: "Hermes" },
-    { source: "Odysseus", target: "Polyphemus" },
-    { source: "Odysseus", target: "Calypso" },
-    { source: "Odysseus", target: "Circe" },
-    { source: "Odysseus", target: "Tiresias" },
-    { source: "Odysseus", target: "Agamemnon" },
-    { source: "Odysseus", target: "Achilleus" },
-    { source: "Odysseus", target: "Alcinous" },
-    { source: "Odysseus", target: "Arete" },
-    { source: "Odysseus", target: "Nausicaa" },
-    { source: "Alcinous", target: "Arete" },
-    { source: "Alcinous", target: "Nausicaa" },
-    { source: "Arete", target: "Nausicaa" },
-  ],
-};
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+
+import "../css/Network.css";
 
 const Network = () => {
   const simulationContainer = useRef(null);
 
-  const [graphData, setGraphData] = useState(odysseyPhysicalInteractionData);
-
+  const [graphData, setGraphData] = useState({
+    nodes: odysseyCharacters,
+    links: physicalInteractionRelationships,
+  });
+  const [radioValue, setRadioValue] = useState("physical-interaction");
   const [width, setWidth] = useState(window.innerWidth * 0.7);
   const height = window.innerHeight * 0.8;
 
@@ -68,6 +25,18 @@ const Network = () => {
       createUpdateSimulation(graphData.nodes, graphData.links, width, height);
     }
   }, [graphData]);
+
+  useEffect(() => {
+    if (radioValue === "physical-interaction") {
+      setGraphData({
+        nodes: odysseyCharacters,
+        links: physicalInteractionRelationships,
+      });
+    }
+    if (radioValue === "family") {
+      setGraphData({ nodes: odysseyCharacters, links: familyRelationships });
+    }
+  }, [radioValue]);
 
   useEffect(() => {
     if (width && height && graphData) {
@@ -177,6 +146,20 @@ const Network = () => {
         d3.select(this).transition().duration(500).attr("r", r);
         currClickedNode = null;
       }
+
+      var connectedEdges = getConnectedNodes(d.id, dataLinks);
+    }
+
+    function getConnectedNodes(nodeId, edgeList) {
+      let connectedEdges = [];
+      edgeList.forEach((element) => {
+        if (nodeId === element.source?.id || nodeId === element.target?.id) {
+          connectedEdges.push(element);
+        }
+      });
+      console.log("list: ", connectedEdges);
+
+      return connectedEdges;
     }
 
     node
@@ -221,19 +204,143 @@ const Network = () => {
       .on("end", dragended);
   }
 
+  const handleFormChange = (event) => {
+    setRadioValue(event.target.value);
+  };
+
   return (
-    <svg
-      ref={simulationContainer}
-      id="force-simulation"
-      width={width}
-      height={height}
-      style={{
-        boxShadow: "10px 9px 21px #2e385333",
-        backgroundColor: "#f7fcff",
-        marginTop: "40px",
-      }}
-    />
+    <div className="network-page-contents">
+      <FormControl component="fieldset">
+        <FormLabel component="legend">View relationships ordered by:</FormLabel>
+        <RadioGroup
+          aria-label="gender"
+          name="gender1"
+          value={radioValue}
+          onChange={handleFormChange}
+        >
+          <FormControlLabel
+            value="physical-interaction"
+            control={<Radio color="primary" />}
+            label="Physical interaction of characters"
+          />
+          <FormControlLabel
+            value="family"
+            control={<Radio color="primary" />}
+            label="Family relationships of characters"
+          />
+        </RadioGroup>
+      </FormControl>
+
+      <svg
+        ref={simulationContainer}
+        id="force-simulation"
+        width={width}
+        height={height}
+        style={{
+          boxShadow: "10px 9px 21px #2e385333",
+          backgroundColor: "#f7fcff",
+        }}
+      />
+    </div>
   );
 };
 
 export default Network;
+
+const odysseyCharacters = [
+  { id: "Odysseus", size: Math.floor(Math.random() * 1000000) },
+  { id: "Penélopê", size: Math.floor(Math.random() * 1000000) },
+  { id: "Telémakhos", size: Math.floor(Math.random() * 1000000) },
+  { id: "Laërtês", size: Math.floor(Math.random() * 1000000) },
+  { id: "Eurykleia", size: Math.floor(Math.random() * 1000000) },
+  { id: "Eumaios", size: Math.floor(Math.random() * 1000000) },
+  { id: "Nestor", size: Math.floor(Math.random() * 1000000) },
+  { id: "Meneláos", size: Math.floor(Math.random() * 1000000) },
+  { id: "Helen", size: Math.floor(Math.random() * 1000000) },
+  { id: "Achilleus", size: Math.floor(Math.random() * 1000000) },
+  { id: "Agamémnon", size: Math.floor(Math.random() * 1000000) },
+  { id: "Zeus", size: Math.floor(Math.random() * 1000000) },
+  { id: "Athena", size: Math.floor(Math.random() * 1000000) },
+  { id: "Poseidon", size: Math.floor(Math.random() * 1000000) },
+  { id: "Hermês", size: Math.floor(Math.random() * 1000000) },
+  { id: "Kalypso", size: Math.floor(Math.random() * 1000000) },
+  { id: "Kirkê", size: Math.floor(Math.random() * 1000000) },
+  { id: "Teirêsias", size: Math.floor(Math.random() * 1000000) },
+  { id: "Polyphemus", size: Math.floor(Math.random() * 1000000) },
+  { id: "Alkínoös", size: Math.floor(Math.random() * 1000000) },
+  { id: "Arêtê", size: Math.floor(Math.random() * 1000000) },
+  { id: "Nausikaa", size: Math.floor(Math.random() * 1000000) },
+  { id: "Skylla", size: Math.floor(Math.random() * 1000000) },
+  { id: "Antínoös", size: Math.floor(Math.random() * 1000000) },
+  { id: "Eurymakhos", size: Math.floor(Math.random() * 1000000) },
+  { id: "Melánthios", size: Math.floor(Math.random() * 1000000) },
+];
+
+const physicalInteractionRelationships = [
+  { source: "Odysseus", target: "Penélopê" },
+  { source: "Odysseus", target: "Telémakhos" },
+  { source: "Penélopê", target: "Telémakhos" },
+  { source: "Odysseus", target: "Laërtês" },
+  { source: "Telémakhos", target: "Laërtês" },
+  { source: "Telémakhos", target: "Nestor" },
+  { source: "Telémakhos", target: "Meneláos" },
+  { source: "Telémakhos", target: "Helen" },
+  { source: "Eurykleia", target: "Odysseus" },
+  { source: "Eurykleia", target: "Penélopê" },
+  { source: "Eurykleia", target: "Telémakhos" },
+  { source: "Meneláos", target: "Helen" },
+  { source: "Athena", target: "Odysseus" },
+  { source: "Athena", target: "Telémakhos" },
+  { source: "Athena", target: "Zeus" },
+  { source: "Zeus", target: "Poseidon" },
+  { source: "Zeus", target: "Hermês" },
+  { source: "Kalypso", target: "Hermês" },
+  { source: "Odysseus", target: "Polyphemus" },
+  { source: "Odysseus", target: "Kalypso" },
+  { source: "Odysseus", target: "Kirkê" },
+  { source: "Odysseus", target: "Teirêsias" },
+  { source: "Odysseus", target: "Agamémnon" },
+  { source: "Odysseus", target: "Achilleus" },
+  { source: "Odysseus", target: "Skylla" },
+  { source: "Odysseus", target: "Alkínoös" },
+  { source: "Odysseus", target: "Arêtê" },
+  { source: "Odysseus", target: "Nausikaa" },
+  { source: "Alkínoös", target: "Arêtê" },
+  { source: "Alkínoös", target: "Nausikaa" },
+  { source: "Arêtê", target: "Nausikaa" },
+  { source: "Eumaios", target: "Odysseus" },
+  { source: "Eumaios", target: "Telémakhos" },
+  { source: "Eumaios", target: "Penélopê" },
+  { source: "Eumaios", target: "Antínoös" },
+  { source: "Eumaios", target: "Eurymakhos" },
+  { source: "Eumaios", target: "Melánthios" },
+  { source: "Melánthios", target: "Odysseus" },
+  { source: "Melánthios", target: "Telémakhos" },
+  { source: "Melánthios", target: "Antínoös" },
+  { source: "Melánthios", target: "Eurymakhos" },
+  { source: "Eurymakhos", target: "Odysseus" },
+  { source: "Eurymakhos", target: "Telémakhos" },
+  { source: "Eurymakhos", target: "Penélopê" },
+  { source: "Eurymakhos", target: "Antínoös" },
+  { source: "Eurymakhos", target: "Eurykleia" },
+  { source: "Antínoös", target: "Eurykleia" },
+  { source: "Antínoös", target: "Telémakhos" },
+  { source: "Antínoös", target: "Odysseus" },
+  { source: "Antínoös", target: "Penélopê" },
+];
+
+const familyRelationships = [
+  { source: "Odysseus", target: "Penélopê" },
+  { source: "Odysseus", target: "Telémakhos" },
+  { source: "Penélopê", target: "Telémakhos" },
+  { source: "Laërtês", target: "Odysseus" },
+  { source: "Alkínoös", target: "Arêtê" },
+  { source: "Nausikaa", target: "Arêtê" },
+  { source: "Nausikaa", target: "Alkínoös" },
+  { source: "Zeus", target: "Athena" },
+  { source: "Zeus", target: "Poseidon" },
+  { source: "Hermês", target: "Zeus" },
+  { source: "Poseidon", target: "Polyphemus" },
+  { source: "Agamémnon", target: "Meneláos" },
+  { source: "Meneláos", target: "Helen" },
+];
