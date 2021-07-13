@@ -213,109 +213,45 @@ const Network = () => {
   };
 
   return (
-    <div className="network-page-contents">
-      <FormControl component="fieldset">
-        <FormLabel component="legend">View relationships ordered by:</FormLabel>
-        <RadioGroup
-          aria-label="gender"
-          name="gender1"
-          value={radioValue}
-          onChange={handleFormChange}
-        >
-          <FormControlLabel
-            value="physical-interaction"
-            control={<Radio color="primary" />}
-            label="Physical interaction of characters"
-          />
-          <FormControlLabel
-            value="family"
-            control={<Radio color="primary" />}
-            label="Family relationships of characters"
-          />
-        </RadioGroup>
-      </FormControl>
+    <div className="network-page">
+      <div className="network-page-caption">
+        Knowledge Graph of Characters from Homer's Odyssey
+      </div>
+      <div className="network-page-contents">
+        <FormControl component="fieldset">
+          <b>View relationships ordered by:</b>
+          <RadioGroup
+            aria-label="gender"
+            name="gender1"
+            value={radioValue}
+            onChange={handleFormChange}
+          >
+            <FormControlLabel
+              value="physical-interaction"
+              control={<Radio color="primary" />}
+              label="Physical interaction of characters"
+            />
+            <FormControlLabel
+              value="family"
+              control={<Radio color="primary" />}
+              label="Family relationships of characters"
+            />
+          </RadioGroup>
+        </FormControl>
 
-      <svg
-        ref={simulationContainer}
-        id="force-simulation"
-        width={width}
-        height={height}
-        style={{
-          boxShadow: "10px 9px 21px #2e385333",
-          backgroundColor: "#f7fcff",
-        }}
-      />
+        <svg
+          ref={simulationContainer}
+          id="force-simulation"
+          width={width}
+          height={height}
+          style={{
+            boxShadow: "10px 9px 21px #2e385333",
+            backgroundColor: "#f7fcff",
+          }}
+        />
+      </div>
     </div>
   );
 };
 
 export default Network;
-
-// const physicalInteractionRelationships = [
-//   { source: "Odysseus", target: "Penélopê" },
-//   { source: "Odysseus", target: "Telémakhos" },
-//   { source: "Penélopê", target: "Telémakhos" },
-//   { source: "Odysseus", target: "Laërtês" },
-//   { source: "Telémakhos", target: "Laërtês" },
-//   { source: "Telémakhos", target: "Nestor" },
-//   { source: "Telémakhos", target: "Meneláos" },
-//   { source: "Telémakhos", target: "Helen" },
-//   { source: "Eurykleia", target: "Odysseus" },
-//   { source: "Eurykleia", target: "Penélopê" },
-//   { source: "Eurykleia", target: "Telémakhos" },
-//   { source: "Meneláos", target: "Helen" },
-//   { source: "Athena", target: "Odysseus" },
-//   { source: "Athena", target: "Telémakhos" },
-//   { source: "Athena", target: "Zeus" },
-//   { source: "Zeus", target: "Poseidon" },
-//   { source: "Zeus", target: "Hermês" },
-//   { source: "Kalypso", target: "Hermês" },
-//   { source: "Odysseus", target: "Polyphemus" },
-//   { source: "Odysseus", target: "Kalypso" },
-//   { source: "Odysseus", target: "Kirkê" },
-//   { source: "Odysseus", target: "Teirêsias" },
-//   { source: "Odysseus", target: "Agamémnon" },
-//   { source: "Odysseus", target: "Achilleus" },
-//   { source: "Odysseus", target: "Skylla" },
-//   { source: "Odysseus", target: "Alkínoös" },
-//   { source: "Odysseus", target: "Arêtê" },
-//   { source: "Odysseus", target: "Nausikaa" },
-//   { source: "Alkínoös", target: "Arêtê" },
-//   { source: "Alkínoös", target: "Nausikaa" },
-//   { source: "Arêtê", target: "Nausikaa" },
-//   { source: "Eumaios", target: "Odysseus" },
-//   { source: "Eumaios", target: "Telémakhos" },
-//   { source: "Eumaios", target: "Penélopê" },
-//   { source: "Eumaios", target: "Antínoös" },
-//   { source: "Eumaios", target: "Eurymakhos" },
-//   { source: "Eumaios", target: "Melánthios" },
-//   { source: "Melánthios", target: "Odysseus" },
-//   { source: "Melánthios", target: "Telémakhos" },
-//   { source: "Melánthios", target: "Antínoös" },
-//   { source: "Melánthios", target: "Eurymakhos" },
-//   { source: "Eurymakhos", target: "Odysseus" },
-//   { source: "Eurymakhos", target: "Telémakhos" },
-//   { source: "Eurymakhos", target: "Penélopê" },
-//   { source: "Eurymakhos", target: "Antínoös" },
-//   { source: "Eurymakhos", target: "Eurykleia" },
-//   { source: "Antínoös", target: "Eurykleia" },
-//   { source: "Antínoös", target: "Telémakhos" },
-//   { source: "Antínoös", target: "Odysseus" },
-//   { source: "Antínoös", target: "Penélopê" },
-// ];
-
-// const familyRelationships = [
-//   { source: "Odysseus", target: "Penélopê" },
-//   { source: "Odysseus", target: "Telémakhos" },
-//   { source: "Penélopê", target: "Telémakhos" },
-//   { source: "Laërtês", target: "Odysseus" },
-//   { source: "Alkínoös", target: "Arêtê" },
-//   { source: "Nausikaa", target: "Arêtê" },
-//   { source: "Nausikaa", target: "Alkínoös" },
-//   { source: "Zeus", target: "Athena" },
-//   { source: "Zeus", target: "Poseidon" },
-//   { source: "Hermês", target: "Zeus" },
-//   { source: "Poseidon", target: "Polyphemus" },
-//   { source: "Agamémnon", target: "Meneláos" },
-//   { source: "Meneláos", target: "Helen" },
-// ];
