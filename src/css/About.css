@@ -1,0 +1,13 @@
+.about-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 80px 30px 30px 30px;
+    width: 60%;
+}
+
+.about-header {
+    color: #151D4F;
+    font-size: 45px;
+    margin-bottom: 50px;
+}

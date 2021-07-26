@@ -5,6 +5,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import { odysseyCharacters } from "./data/odysseyCharacters";
 import { physicalInteractionRelationships } from "./data/physicalInteractionRelationships";
@@ -221,16 +222,26 @@ const Network = () => {
             value={radioValue}
             onChange={handleFormChange}
           >
-            <FormControlLabel
-              value="physical-interaction"
-              control={<Radio color="primary" />}
-              label="Physical interaction of characters"
-            />
-            <FormControlLabel
-              value="family"
-              control={<Radio color="primary" />}
-              label="Family relationships of characters"
-            />
+            <Tooltip
+              title="Edges between nodes indicate characters physically interact at least once"
+              arrow
+            >
+              <FormControlLabel
+                value="physical-interaction"
+                control={<Radio color="primary" />}
+                label="Physical interaction of characters"
+              />
+            </Tooltip>
+            <Tooltip
+              title="Edges between nodes indicate characters have a direct familial relationship, e.g. child, parent, sibling"
+              arrow
+            >
+              <FormControlLabel
+                value="family"
+                control={<Radio color="primary" />}
+                label="Family relationships of characters"
+              />
+            </Tooltip>
           </RadioGroup>
         </FormControl>
 
