@@ -23,6 +23,11 @@ const Network = () => {
   const [radioValue, setRadioValue] = useState("physical-interaction");
   const [width, setWidth] = useState(window.innerWidth * 0.7);
   const height = window.innerHeight * 0.8;
+  const [currSelected, setCurrSelected] = useState(null);
+
+  useEffect(() => {
+    console.log("curr selected: ", currSelected);
+  }, [currSelected]);
 
   useEffect(() => {
     if (graphData) {
@@ -145,10 +150,12 @@ const Network = () => {
           .attr("r", r * 1.4);
 
         currClickedNode = d.id;
+        setCurrSelected(d.id);
       }
       if (event?.path[0]?.r?.animVal?.value === r * 1.4) {
         d3.select(this).transition().duration(500).attr("r", r);
         currClickedNode = null;
+        setCurrSelected(null);
       }
     }
 
@@ -214,36 +221,38 @@ const Network = () => {
         Knowledge Graph of Characters from Homer's Odyssey
       </div>
       <div className="network-page-contents">
-        <FormControl component="fieldset">
-          <b>View relationships ordered by:</b>
-          <RadioGroup
-            aria-label="gender"
-            name="gender1"
-            value={radioValue}
-            onChange={handleFormChange}
-          >
-            <Tooltip
-              title="Edges between nodes indicate characters physically interact at least once"
-              arrow
+        <div className="form-and-details">
+          <FormControl component="fieldset">
+            <b>View relationships ordered by:</b>
+            <RadioGroup
+              aria-label="gender"
+              name="gender1"
+              value={radioValue}
+              onChange={handleFormChange}
             >
-              <FormControlLabel
-                value="physical-interaction"
-                control={<Radio color="primary" />}
-                label="Physical interaction of characters"
-              />
-            </Tooltip>
-            <Tooltip
-              title="Edges between nodes indicate characters have a direct familial relationship, e.g. child, parent, sibling"
-              arrow
-            >
-              <FormControlLabel
-                value="family"
-                control={<Radio color="primary" />}
-                label="Family relationships of characters"
-              />
-            </Tooltip>
-          </RadioGroup>
-        </FormControl>
+              <Tooltip
+                title="Edges between nodes indicate characters physically interact at least once"
+                arrow
+              >
+                <FormControlLabel
+                  value="physical-interaction"
+                  control={<Radio color="primary" />}
+                  label="Physical interaction of characters"
+                />
+              </Tooltip>
+              <Tooltip
+                title="Edges between nodes indicate characters have a direct familial relationship, e.g. child, parent, sibling"
+                arrow
+              >
+                <FormControlLabel
+                  value="family"
+                  control={<Radio color="primary" />}
+                  label="Family relationships of characters"
+                />
+              </Tooltip>
+            </RadioGroup>
+          </FormControl>
+        </div>
 
         <svg
           ref={simulationContainer}

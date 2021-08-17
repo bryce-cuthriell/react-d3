@@ -8,6 +8,7 @@ import {
 import Header from "./Header";
 import Dashboard from "./Dashboard";
 import Network from "./KnowledgeGraphs/Network";
+import LineGraph from "./LineGraph";
 import DataSources from "./DataSources";
 import About from "./About";
 
@@ -18,6 +19,7 @@ const Routes = () => {
       <Switch>
         <Route exact path="/" render={() => <Dashboard />} />
         <Route exact path="/knowledge-graphs" render={() => <Network />} />
+        <Route exact path="/bar-graphs" render={() => <LineGraph />} />
         <Route exact path="/data-sources" render={() => <DataSources />} />
         <Route exact path="/about" render={() => <About />} />
         <Route>

@@ -1,0 +1,27 @@
+.data-sources-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 80px 30px 30px 30px;
+  width: 75%;
+}
+
+.data-sources-header {
+  color: #151d4f;
+  font-size: 45px;
+  margin-bottom: 50px;
+}
+
+.data-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.data-section-header {
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+.data-section-body {
+  margin-bottom: 40px;
+}

@@ -14,3 +14,8 @@
   align-items: center;
   margin: 50px 0px 40px 0px;
 }
+
+.form-and-details {
+  display: flex;
+  flex-direction: column;
+}
