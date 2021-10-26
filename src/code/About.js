@@ -16,12 +16,12 @@ const About = () => {
         <br />
         <br />
         <a href="https://d3js.org/" target="_blank" rel="noopener noreferrer">
-          Data Driven Documents
+          Data-Driven Documents
         </a>{" "}
         (D3) is a visualization tool for manipulating the DOM based on data. Its
         applications and abilities are extensive, ranging from simple dots or
-        lines on a canvas to complex interactive maps. It is the low-level
-        customizability of D3 that gives it its reputation of being a
+        lines on a canvas to complex interactive maps (and much more). It is the
+        low-level customizability of D3 that gives it its reputation of being a
         challenging tool to work with, but simultaneously very powerful and
         rewarding. At its most basic level, D3 works with very simple building
         blocks like lines or dots, but it also provides the toolkit to create
