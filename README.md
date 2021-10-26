@@ -1,7 +1,7 @@
 # React-D3
 
 The intention of this project is to show some of the ways that D3 and React can be used together to create
-powerful and visually-striking data visualizations. At present, only one visualization type is available, 
+powerful and striking data visualizations. At present, only one visualization type is available, 
 namely knowledge graphs (node-link graphs). This application is a work in progress and, as I have time, 
 I hope to build out other visualizations.
 
